@@ -9,9 +9,9 @@ interface AuthLayoutProps {
 
 export function AuthLayout({ title, subtitle, children }: AuthLayoutProps) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-navy-900 px-4 py-8 sm:px-6 lg:px-8">
+    <div className="flex min-h-screen items-start justify-center bg-[#e5dbce] px-4 py-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md">
-        <Logo className="mb-6" />
+        <Logo className="mb-1" />
 
         <div className="rounded-xl bg-white p-6 shadow-xl sm:p-8">
           <div className="mb-6 text-center">

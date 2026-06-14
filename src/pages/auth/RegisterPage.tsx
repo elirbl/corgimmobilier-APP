@@ -31,7 +31,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <AuthLayout title="Créer un compte" subtitle="Rejoignez la plateforme Ymmo">
+    <AuthLayout title="Créer un compte" subtitle="Rejoignez la plateforme Corgimmobilier">
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
           <InputField

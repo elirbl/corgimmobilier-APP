@@ -23,7 +23,7 @@ export default function LoginPage() {
   }
 
   return (
-    <AuthLayout title="Connexion" subtitle="Accédez à votre espace Ymmo">
+    <AuthLayout title="Connexion" subtitle="Accédez à votre espace Corgimmobilier">
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <InputField
           label="Email"

@@ -35,7 +35,7 @@ export const useAuthStore = create<AuthState>()(
         }),
     }),
     {
-      name: 'ymmo-auth',
+      name: 'corgimmobilier-auth',
       partialize: (state) => ({
         user: state.user,
         accessToken: state.accessToken,

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import logo from '../assets/logo.png';
 import { useAuthStore } from '../stores/authStore';
 import { useUIStore } from '../stores/uiStore';
 import { useLogout } from '../hooks/useAuth';
@@ -46,7 +47,10 @@ export function Layout() {
       <aside
         className={`${sidebarOpen ? 'w-64' : 'w-0'} overflow-hidden bg-white border-r border-gray-200 transition-all duration-200`}
       >
-        <div className="p-4 text-lg font-semibold text-gray-800">Ymmo</div>
+        <div className="flex items-center gap-2 p-4">
+          <img src={logo} alt="Corgimmobilier" className="h-8 w-8" />
+          <span className="text-lg font-semibold text-gray-800">Corgimmobilier</span>
+        </div>
         <nav className="flex flex-col gap-1 px-2">
           {navItems
             .filter((item) => !item.roles || (user && item.roles.includes(user.role)))

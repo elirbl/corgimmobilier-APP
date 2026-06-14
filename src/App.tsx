@@ -12,6 +12,7 @@ const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 const BienListPage = lazy(() => import('./pages/BienListPage'));
 const BienDetailPage = lazy(() => import('./pages/BienDetailPage'));
 const AgenciesPage = lazy(() => import('./pages/AgenciesPage'));
+const AgencyDetailPage = lazy(() => import('./pages/AgencyDetailPage'));
 const MessagesPage = lazy(() => import('./pages/MessagesPage'));
 const UnauthorizedPage = lazy(() => import('./pages/UnauthorizedPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
@@ -51,6 +52,14 @@ export default function App() {
               element={
                 <PrivateRoute roles={['Admin']}>
                   <AgenciesPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/agencies/:id"
+              element={
+                <PrivateRoute roles={['Admin']}>
+                  <AgencyDetailPage />
                 </PrivateRoute>
               }
             />

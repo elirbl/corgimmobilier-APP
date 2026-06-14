@@ -94,3 +94,14 @@ export interface ConversationSummary {
   lastMessageAt: string;
   unreadCount: number;
 }
+
+export interface Message {
+  id: number;
+  senderId: number;
+  senderName: string;
+  recipientId: number;
+  recipientName: string;
+  content: string;
+  sentAt: string;
+  isRead: boolean;
+}

@@ -1,18 +1,45 @@
+import { useEffect } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { useAuthStore } from '../stores/authStore';
 import { useUIStore } from '../stores/uiStore';
 import { useLogout } from '../hooks/useAuth';
+import { useConversations, useInvalidateConversations } from '../hooks/useMessages';
+import { useSignalR } from '../hooks/useSignalR';
+import type { Message } from '../types';
 
 const navItems: { to: string; label: string; roles?: Array<'Admin' | 'Agent' | 'Client'> }[] = [
   { to: '/', label: 'Tableau de bord' },
   { to: '/properties', label: 'Biens' },
   { to: '/agencies', label: 'Agences', roles: ['Admin'] },
+  { to: '/messages', label: 'Messages' },
 ];
 
 export function Layout() {
   const { user, isAuthenticated } = useAuthStore();
   const { sidebarOpen, toggleSidebar } = useUIStore();
   const logout = useLogout();
+  const { data: conversations } = useConversations();
+  const { connection } = useSignalR();
+  const invalidateConversations = useInvalidateConversations();
+
+  const unreadCount = (conversations ?? []).reduce((sum, conv) => sum + conv.unreadCount, 0);
+
+  useEffect(() => {
+    if (!isAuthenticated || !user) return;
+
+    function handleReceive(message: Message) {
+      invalidateConversations();
+      if (message.senderId !== user!.id) {
+        toast(`${message.senderName} : ${message.content}`, { icon: '💬' });
+      }
+    }
+
+    connection.on('ReceiveMessage', handleReceive);
+    return () => {
+      connection.off('ReceiveMessage', handleReceive);
+    };
+  }, [connection, isAuthenticated, user, invalidateConversations]);
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -52,6 +79,14 @@ export function Layout() {
           <div className="flex items-center gap-3">
             {isAuthenticated && user ? (
               <>
+                <NavLink to="/messages" className="relative rounded p-2 text-gray-600 hover:bg-gray-100" aria-label="Messages">
+                  ✉️
+                  {unreadCount > 0 && (
+                    <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-brand-500 px-1 text-[10px] font-semibold text-white">
+                      {unreadCount > 99 ? '99+' : unreadCount}
+                    </span>
+                  )}
+                </NavLink>
                 <span className="text-sm text-gray-700">
                   {user.firstName} {user.lastName} · {user.role}
                 </span>

@@ -1,5 +1,6 @@
 import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import { Layout } from './components/Layout';
 import { PrivateRoute } from './components/PrivateRoute';
 
@@ -11,6 +12,7 @@ const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 const BienListPage = lazy(() => import('./pages/BienListPage'));
 const BienDetailPage = lazy(() => import('./pages/BienDetailPage'));
 const AgenciesPage = lazy(() => import('./pages/AgenciesPage'));
+const MessagesPage = lazy(() => import('./pages/MessagesPage'));
 const UnauthorizedPage = lazy(() => import('./pages/UnauthorizedPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
@@ -52,11 +54,20 @@ export default function App() {
                 </PrivateRoute>
               }
             />
+            <Route
+              path="/messages"
+              element={
+                <PrivateRoute>
+                  <MessagesPage />
+                </PrivateRoute>
+              }
+            />
           </Route>
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
+      <Toaster position="top-right" />
     </BrowserRouter>
   );
 }

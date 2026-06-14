@@ -1,73 +1,97 @@
-# React + TypeScript + Vite
+# Ymmo App (Corgimmobilier)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend for **Corgimmobilier**, a real estate management platform. Built with **React 19**, **TypeScript**, **Vite** and **Tailwind CSS**.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Authentication** — login, registration, forgot/reset password, JWT-based session with automatic token refresh
+- **Role-based access** — dedicated dashboards and routes for `Admin`, `Agent` and `Client`
+- **Property catalogue** — searchable/filterable property listings with an interactive map (Leaflet) and detail pages
+- **Agencies** — list and detail pages with agency info and attached agents
+- **Dashboards** — KPIs and charts (Recharts) tailored per role (global admin, agency admin, agent, client)
+- **Visits & Transactions** — view scheduled visits and ongoing sales transactions
+- **Favorites** — clients can save properties for later
+- **Real-time messaging** — chat between users via SignalR, with unread badges and toast notifications
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Layer | Technology |
+|---|---|
+| Framework | React 19 + TypeScript |
+| Build tool | Vite |
+| Styling | Tailwind CSS |
+| Routing | React Router (lazy-loaded routes, role-based `PrivateRoute`) |
+| Data fetching | TanStack React Query |
+| State management | Zustand |
+| Forms & validation | React Hook Form + Zod |
+| HTTP client | Axios (with JWT interceptors and auto-refresh) |
+| Maps | Leaflet / React Leaflet |
+| Charts | Recharts |
+| Real-time | SignalR (`@microsoft/signalr`) |
+| Notifications | react-hot-toast |
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+  assets/      Static assets
+  components/  Reusable UI components (Layout, PrivateRoute, forms, dashboard widgets, ...)
+  hooks/       React Query hooks (useAgencies, useProperties, useSignalR, ...)
+  lib/         Axios client and shared utilities
+  pages/       Route-level pages (auth, dashboard, properties, agencies, messages, ...)
+  schemas/     Zod validation schemas
+  services/    API service layers (one per resource)
+  stores/      Zustand stores (auth, UI)
+  types/       Shared TypeScript types
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Getting Started
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Prerequisites
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- [Node.js](https://nodejs.org/) (v20+ recommended)
+- The [Ymmo API](../corgimmobilier-API) backend running (locally or via Docker)
+
+### Setup
+
+1. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. Configure the API URL in `.env.local`:
+
+   ```env
+   VITE_API_URL=http://localhost:5000
+   ```
+
+3. Start the dev server:
+
+   ```bash
+   npm run dev
+   ```
+
+### Available Scripts
+
+| Script | Description |
+|---|---|
+| `npm run dev` | Start the Vite dev server with HMR |
+| `npm run build` | Type-check and build for production |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint |
+
+## Docker
+
+The app is also built and served as part of the full stack via [`corgimmobilier-API/docker-compose.yml`](../corgimmobilier-API/docker-compose.yml):
+
+```bash
+cd ../corgimmobilier-API
+docker compose --env-file .env.docker up -d --build
 ```
+
+The frontend will be available at http://localhost:3000.
+
+## Contributors
+
+Project made by Elisabeth ROBL and Alexandre RIVIERE

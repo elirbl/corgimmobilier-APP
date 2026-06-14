@@ -1,5 +1,5 @@
 import api from './api';
-import type { ApiResponse, AgentSummary } from '../types';
+import type { ApiResponse, AgentSummary, TransactionListItem } from '../types';
 
 export interface TransactionCreatePayload {
   propertyId: number;
@@ -21,5 +21,10 @@ export const transactionService = {
   create: async (payload: TransactionCreatePayload): Promise<TransactionDetail> => {
     const { data } = await api.post<ApiResponse<TransactionDetail>>('/api/transactions', payload);
     return data.data!;
+  },
+
+  getMine: async (): Promise<TransactionListItem[]> => {
+    const { data } = await api.get<ApiResponse<TransactionListItem[]>>('/api/transactions/mine');
+    return data.data ?? [];
   },
 };

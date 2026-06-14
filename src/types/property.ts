@@ -32,6 +32,13 @@ export interface PropertyListItem {
   listedDate: string;
   agencyId: number;
   agencyName: string;
+  agentId?: number | null;
+}
+
+export interface Favorite {
+  id: number;
+  createdAt: string;
+  property: PropertyListItem;
 }
 
 export interface PropertyDetail {
@@ -63,6 +70,7 @@ export interface PropertyFilters {
   surface?: number;
   ville?: string;
   dpe?: PropertyDpe;
+  agentId?: number;
   page?: number;
   pageSize?: number;
   sort?: string;

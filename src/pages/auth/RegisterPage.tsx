@@ -6,6 +6,7 @@ import { FormError } from '../../components/form/FormError';
 import { InputField } from '../../components/form/InputField';
 import { PasswordInput } from '../../components/form/PasswordInput';
 import { useRegister } from '../../hooks/useAuth';
+import { getApiErrorMessage } from '../../services/api';
 import { registerSchema, type RegisterFormValues } from '../../schemas/authSchemas';
 
 export default function RegisterPage() {
@@ -88,7 +89,10 @@ export default function RegisterPage() {
         <FormError
           message={
             registerAccount.isError
-              ? 'Une erreur est survenue lors de la création du compte. Veuillez réessayer.'
+              ? getApiErrorMessage(
+                  registerAccount.error,
+                  'Une erreur est survenue lors de la création du compte. Veuillez réessayer.',
+                )
               : undefined
           }
         />

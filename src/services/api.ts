@@ -80,4 +80,13 @@ api.interceptors.response.use(
   },
 );
 
+export function getApiErrorMessage(error: unknown, fallback: string): string {
+  if (axios.isAxiosError(error)) {
+    const data = error.response?.data as { error?: string; title?: string } | undefined;
+    if (data?.error) return data.error;
+    if (data?.title) return data.title;
+  }
+  return fallback;
+}
+
 export default api;
